@@ -40,6 +40,7 @@ function deleteCheck(event){
     if(item.classList[0] === 'trash-btn'){
         const todo = item.parentElement
         todo.classList.add('fall')
+        removeLocalTodos(todo)
         todo.addEventListener('transitionend',function(){
             todo.remove()})
     }
@@ -51,7 +52,6 @@ function deleteCheck(event){
 
 function filterTodo(e){
     const todos = toDoList.childNodes
-    console.log(todos)
     // console.log(e.target.value)
     todos.forEach(function(todo){
         switch(e.target.value){
@@ -90,7 +90,6 @@ function saveLocalTodos(todo){
     localStorage.setItem('todos',JSON.stringify(todos))
 }
 function getTodos(){
-    console.log('hello')
     let todos
     if(localStorage.getItem('todos')===null){
     todos=[]
@@ -119,4 +118,16 @@ function getTodos(){
 
     toDoList.appendChild(todoDiv)
     })
+}
+function removeLocalTodos(todo){
+    let todos
+    if(localStorage.getItem('todos')===null){
+    todos=[]
+    }else{
+        todos = JSON.parse(localStorage.getItem('todos'))
+    }   
+
+    const todoIndex = todo.children[0].innerText
+    todos.splice(todos.indexOf(todoIndex),1) 
+    localStorage.setItem('todos',JSON.stringify(todos))
 }
